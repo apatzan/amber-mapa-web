@@ -11,9 +11,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const usuario = localStorage.getItem("usuario");
     const bienvenido = document.getElementById("bienvenido");
+    const bienvenidoTexto = document.getElementById("bienvenido-texto");
 
-    if(bienvenido && usuario){
-        bienvenido.textContent = `Bienvenido: ${usuario}`;
+    if(bienvenido && bienvenidoTexto && usuario){
+        bienvenidoTexto.textContent = `Bienvenido, ${usuario}`;
+        bienvenido.style.display = "inline-flex";
     }
 
 });

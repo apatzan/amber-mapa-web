@@ -68,11 +68,30 @@ nav a:hover{
 
 .bienvenido{
 
-    color:#555;
+    display:none;
+    align-items:center;
+    gap:8px;
+
+    color:#F7941D;
 
     font-weight:600;
+    font-size:14px;
+
+    background:#FFF3E4;
+
+    border:1px solid #FBD8A6;
+
+    padding:8px 16px;
+
+    border-radius:30px;
 
     margin-right:15px;
+
+}
+
+.bienvenido i{
+
+    font-size:13px;
 
 }
 
