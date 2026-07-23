@@ -1,0 +1,16 @@
+{
+    "codigos": [
+        {
+            "codigo": "AMBER-001",
+            "nombre": "Miguel Patzan"
+        },
+        {
+            "codigo": "AMBER-002",
+            "nombre": "Andrea López"
+        },
+        {
+            "codigo": "AMBER-003",
+            "nombre": "Carlos Pérez"
+        }
+    ]
+}
