@@ -247,3 +247,124 @@ body.login-page {
 .popup-btn:hover{
     background: #db7f0f;
 }
+
+/* ADMIN CÓDIGOS */
+
+.admin-contenido{
+    margin-top:80px;
+    padding:40px 50px 60px;
+}
+
+.admin-titulo{
+    margin-bottom:25px;
+}
+
+.admin-titulo h1{
+    font-size:28px;
+    color:#333;
+    margin-bottom:6px;
+}
+
+.admin-titulo p{
+    color:#666;
+    font-size:15px;
+}
+
+.admin-toolbar{
+    display:flex;
+    align-items:center;
+    gap:15px;
+    margin-bottom:20px;
+    flex-wrap:wrap;
+}
+
+.admin-mensaje{
+    color:#F7941D;
+    font-weight:600;
+    font-size:14px;
+}
+
+.btn{
+    display:inline-block;
+    background:#F7941D;
+    color:white;
+    border:none;
+    padding:12px 20px;
+    border-radius:30px;
+    cursor:pointer;
+    font-family:inherit;
+    font-size:14px;
+    font-weight:600;
+    text-decoration:none;
+    transition:.3s;
+}
+
+.btn:hover{
+    background:#db7f0f;
+}
+
+.btn-secondary{
+    background:#6c757d;
+}
+
+.btn-secondary:hover{
+    background:#495057;
+}
+
+.btn-danger{
+    background:#c0392b;
+}
+
+.btn-danger:hover{
+    background:#a5301f;
+}
+
+.btn-small{
+    padding:6px 14px;
+    font-size:13px;
+    border-radius:20px;
+}
+
+.tabla-codigos{
+    width:100%;
+    border-collapse:collapse;
+    background:white;
+    border-radius:12px;
+    overflow:hidden;
+    box-shadow:0 4px 20px rgba(0,0,0,.08);
+}
+
+.tabla-codigos th, .tabla-codigos td{
+    padding:14px 18px;
+    text-align:left;
+    border-bottom:1px solid #eee;
+}
+
+.tabla-codigos th{
+    background:#F7941D;
+    color:white;
+    font-weight:600;
+}
+
+.tabla-codigos tr:last-child td{
+    border-bottom:none;
+}
+
+.tabla-codigos input{
+    width:100%;
+    padding:8px 10px;
+    border:1px solid #ddd;
+    border-radius:8px;
+    font-family:inherit;
+    font-size:14px;
+    outline:none;
+}
+
+.tabla-codigos input:focus{
+    border-color:#F7941D;
+}
+
+.acciones-celda{
+    display:flex;
+    gap:8px;
+}

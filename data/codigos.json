@@ -2,15 +2,23 @@
     "codigos": [
         {
             "codigo": "AMBER-001",
-            "nombre": "Miguel Patzan"
+            "nombre": "Miguel Patzan",
+            "tipo": "mantenimiento"
         },
         {
             "codigo": "AMBER-002",
-            "nombre": "Andrea López"
+            "nombre": "Miguel Patzan",
+            "tipo": "mantenimiento"
         },
         {
             "codigo": "AMBER-003",
-            "nombre": "Carlos Pérez"
+            "nombre": "Andrea López",
+            "tipo": "consulta"
+        },
+        {
+            "codigo": "AMBER-004",
+            "nombre": "Carlos Pérez",
+            "tipo": "consulta"
         }
     ]
 }

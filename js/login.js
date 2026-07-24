@@ -18,8 +18,11 @@ async function validar(){
 
         localStorage.setItem("autenticado","true");
         localStorage.setItem("usuario",usuario.nombre);
+        localStorage.setItem("tipo",usuario.tipo);
 
-        window.location.href="mapa.html";
+        window.location.href = usuario.tipo === "mantenimiento"
+            ? "info.html"
+            : "mapa.html";
 
     }else{
 
