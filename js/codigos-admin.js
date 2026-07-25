@@ -1,26 +1,14 @@
-const DRAFT_KEY = "codigos_draft";
-
 let codigos = [];
 let editingIndex = -1;
 let esNuevo = false;
+let terminoBusqueda = "";
 
 async function cargarCodigos(){
-
-    const draft = localStorage.getItem(DRAFT_KEY);
-
-    if(draft){
-        codigos = JSON.parse(draft);
-    }else{
-        const respuesta = await fetch("data/codigos.json");
-        const datos = await respuesta.json();
-        codigos = datos.codigos;
-    }
+    const respuesta = await fetch("/api/codigos");
+    const datos = await respuesta.json();
+    codigos = datos.codigos;
 
     renderTabla();
-}
-
-function guardarDraft(){
-    localStorage.setItem(DRAFT_KEY, JSON.stringify(codigos));
 }
 
 function mostrarMensaje(texto){
@@ -54,13 +42,22 @@ function renderTabla(){
     tbody.innerHTML = "";
 
     codigos.forEach((item, index) => {
+        const coincideBusqueda = item.nombre.toLowerCase().includes(terminoBusqueda);
+
+        if(!coincideBusqueda && index !== editingIndex) return;
+
         const fila = document.createElement("tr");
 
         if(index === editingIndex){
             fila.innerHTML = `
                 <td><input type="text" id="edit-codigo" value="${escapeHtml(item.codigo)}"></td>
                 <td><input type="text" id="edit-nombre" value="${escapeHtml(item.nombre)}"></td>
-                <td><input type="text" id="edit-tipo" value="${escapeHtml(item.tipo)}"></td>
+                <td>
+                    <select id="edit-tipo">
+                        <option value="consulta" ${item.tipo === "consulta" ? "selected" : ""}>consulta</option>
+                        <option value="mantenimiento" ${item.tipo === "mantenimiento" ? "selected" : ""}>mantenimiento</option>
+                    </select>
+                </td>
                 <td class="acciones-celda">
                     <button class="btn btn-small" onclick="guardarEdicion()">Guardar</button>
                     <button class="btn btn-small btn-secondary" onclick="cancelarEdicion()">Cancelar</button>
@@ -93,7 +90,7 @@ function cancelarEdicion(){
     renderTabla();
 }
 
-function guardarEdicion(){
+async function guardarEdicion(){
     const codigo = document.getElementById("edit-codigo").value.trim();
     const nombre = document.getElementById("edit-nombre").value.trim();
     const tipo = document.getElementById("edit-tipo").value.trim();
@@ -103,24 +100,47 @@ function guardarEdicion(){
         return;
     }
 
-    codigos[editingIndex] = { codigo, nombre, tipo };
+    const item = codigos[editingIndex];
+    const esCreacion = esNuevo;
+
+    const respuesta = await fetch(
+        esCreacion ? "/api/codigos" : `/api/codigos/${item.id}`,
+        {
+            method: esCreacion ? "POST" : "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ codigo, nombre, tipo })
+        }
+    );
+
+    const datos = await respuesta.json();
+
+    if(!respuesta.ok){
+        mostrarMensaje(datos.error || "No se pudo guardar el código");
+        return;
+    }
+
     editingIndex = -1;
     esNuevo = false;
 
-    guardarDraft();
-    renderTabla();
-    mostrarMensaje("Cambios guardados (borrador local)");
+    await cargarCodigos();
+    mostrarMensaje("Cambios guardados");
 }
 
-function eliminarCodigo(index){
+async function eliminarCodigo(index){
     const item = codigos[index];
 
     if(!confirm(`¿Eliminar el código ${item.codigo}?`)) return;
 
-    codigos.splice(index, 1);
-    guardarDraft();
-    renderTabla();
-    mostrarMensaje("Código eliminado (borrador local)");
+    const respuesta = await fetch(`/api/codigos/${item.id}`, { method: "DELETE" });
+
+    if(!respuesta.ok){
+        const datos = await respuesta.json().catch(() => ({}));
+        mostrarMensaje(datos.error || "No se pudo eliminar el código");
+        return;
+    }
+
+    await cargarCodigos();
+    mostrarMensaje("Código eliminado");
 }
 
 function agregarNuevo(){
@@ -133,22 +153,13 @@ function agregarNuevo(){
     renderTabla();
 }
 
-function descargarJSON(){
-    const contenido = JSON.stringify({ codigos }, null, 4);
-    const blob = new Blob([contenido], { type: "application/json" });
-    const url = URL.createObjectURL(blob);
-
-    const enlace = document.createElement("a");
-    enlace.href = url;
-    enlace.download = "codigos.json";
-    enlace.click();
-
-    URL.revokeObjectURL(url);
-}
-
 document.addEventListener("DOMContentLoaded", () => {
     cargarCodigos();
 
     document.getElementById("btn-nuevo").addEventListener("click", agregarNuevo);
-    document.getElementById("btn-descargar").addEventListener("click", descargarJSON);
+
+    document.getElementById("buscar-nombre").addEventListener("input", (evento) => {
+        terminoBusqueda = evento.target.value.trim().toLowerCase();
+        renderTabla();
+    });
 });
