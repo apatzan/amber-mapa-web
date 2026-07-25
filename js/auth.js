@@ -20,10 +20,25 @@ document.addEventListener("DOMContentLoaded", () => {
 
 });
 
-function cerrarSesion(){
+async function cerrarSesion(){
+
+    const token = localStorage.getItem("token");
 
     localStorage.removeItem("autenticado");
     localStorage.removeItem("usuario");
+    localStorage.removeItem("tipo");
+    localStorage.removeItem("token");
+
+    if(token){
+        try{
+            await fetch("/api/logout", {
+                method: "POST",
+                headers: { "Authorization": `Bearer ${token}` }
+            });
+        }catch(error){
+            // el logout local ya ocurrió; ignorar fallas de red al invalidar en el servidor
+        }
+    }
 
     window.location.href="index.html";
 

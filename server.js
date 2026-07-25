@@ -1,9 +1,43 @@
 const path = require("path");
+const crypto = require("crypto");
 const express = require("express");
 const db = require("./db");
 
 const app = express();
 const PORT = process.env.PORT || 8000;
+const SESSION_TTL_MS = 8 * 60 * 60 * 1000;
+
+const sesiones = new Map();
+
+function crearSesion(usuario){
+    const token = crypto.randomBytes(32).toString("hex");
+    sesiones.set(token, { ...usuario, expira: Date.now() + SESSION_TTL_MS });
+    return token;
+}
+
+function obtenerSesion(token){
+    const sesion = sesiones.get(token);
+    if(!sesion) return null;
+
+    if(Date.now() > sesion.expira){
+        sesiones.delete(token);
+        return null;
+    }
+
+    return sesion;
+}
+
+function requireMantenimiento(req, res, next){
+    const encabezado = req.headers.authorization || "";
+    const token = encabezado.startsWith("Bearer ") ? encabezado.slice(7) : null;
+    const sesion = token && obtenerSesion(token);
+
+    if(!sesion) return res.status(401).json({ error: "No autenticado" });
+    if(sesion.tipo !== "mantenimiento") return res.status(403).json({ error: "No autorizado" });
+
+    req.sesion = sesion;
+    next();
+}
 
 app.use(express.json());
 app.use(express.static(__dirname));
@@ -17,15 +51,24 @@ app.post("/api/login", (req, res) => {
 
     if(!usuario) return res.status(404).json({ error: "Código inválido" });
 
-    res.json(usuario);
+    const token = crearSesion(usuario);
+    res.json({ ...usuario, token });
 });
 
-app.get("/api/codigos", (req, res) => {
+app.post("/api/logout", (req, res) => {
+    const encabezado = req.headers.authorization || "";
+    const token = encabezado.startsWith("Bearer ") ? encabezado.slice(7) : null;
+
+    if(token) sesiones.delete(token);
+    res.status(204).end();
+});
+
+app.get("/api/codigos", requireMantenimiento, (req, res) => {
     const codigos = db.prepare("SELECT id, codigo, nombre, tipo FROM codigos ORDER BY id").all();
     res.json({ codigos });
 });
 
-app.post("/api/codigos", (req, res) => {
+app.post("/api/codigos", requireMantenimiento, (req, res) => {
     const { codigo, nombre, tipo } = req.body;
 
     if(!codigo || !nombre || !tipo){
@@ -46,7 +89,7 @@ app.post("/api/codigos", (req, res) => {
     }
 });
 
-app.put("/api/codigos/:id", (req, res) => {
+app.put("/api/codigos/:id", requireMantenimiento, (req, res) => {
     const { id } = req.params;
     const { codigo, nombre, tipo } = req.body;
 
@@ -72,7 +115,7 @@ app.put("/api/codigos/:id", (req, res) => {
     }
 });
 
-app.delete("/api/codigos/:id", (req, res) => {
+app.delete("/api/codigos/:id", requireMantenimiento, (req, res) => {
     const { id } = req.params;
 
     const resultado = db.prepare("DELETE FROM codigos WHERE id = ?").run(id);

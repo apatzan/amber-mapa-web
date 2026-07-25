@@ -16,6 +16,7 @@ async function validar(){
         localStorage.setItem("autenticado","true");
         localStorage.setItem("usuario",usuario.nombre);
         localStorage.setItem("tipo",usuario.tipo);
+        localStorage.setItem("token",usuario.token);
 
         window.location.href = usuario.tipo === "mantenimiento"
             ? "info.html"

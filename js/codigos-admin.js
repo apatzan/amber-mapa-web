@@ -3,8 +3,27 @@ let editingIndex = -1;
 let esNuevo = false;
 let terminoBusqueda = "";
 
+function authFetch(url, opciones = {}){
+    const token = localStorage.getItem("token");
+    const headers = { ...(opciones.headers || {}), "Authorization": `Bearer ${token}` };
+
+    return fetch(url, { ...opciones, headers });
+}
+
+function manejarSesionInvalida(respuesta){
+    if(respuesta.status === 401 || respuesta.status === 403){
+        window.location.href = "index.html";
+        return true;
+    }
+
+    return false;
+}
+
 async function cargarCodigos(){
-    const respuesta = await fetch("/api/codigos");
+    const respuesta = await authFetch("/api/codigos");
+
+    if(manejarSesionInvalida(respuesta)) return;
+
     const datos = await respuesta.json();
     codigos = datos.codigos;
 
@@ -103,7 +122,7 @@ async function guardarEdicion(){
     const item = codigos[editingIndex];
     const esCreacion = esNuevo;
 
-    const respuesta = await fetch(
+    const respuesta = await authFetch(
         esCreacion ? "/api/codigos" : `/api/codigos/${item.id}`,
         {
             method: esCreacion ? "POST" : "PUT",
@@ -111,6 +130,8 @@ async function guardarEdicion(){
             body: JSON.stringify({ codigo, nombre, tipo })
         }
     );
+
+    if(manejarSesionInvalida(respuesta)) return;
 
     const datos = await respuesta.json();
 
@@ -131,7 +152,9 @@ async function eliminarCodigo(index){
 
     if(!confirm(`¿Eliminar el código ${item.codigo}?`)) return;
 
-    const respuesta = await fetch(`/api/codigos/${item.id}`, { method: "DELETE" });
+    const respuesta = await authFetch(`/api/codigos/${item.id}`, { method: "DELETE" });
+
+    if(manejarSesionInvalida(respuesta)) return;
 
     if(!respuesta.ok){
         const datos = await respuesta.json().catch(() => ({}));
