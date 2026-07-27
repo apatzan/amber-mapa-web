@@ -12,8 +12,9 @@
       "Región":"Región Occidental ",
       "Latitud":"13583519",
       "Longitud":-89.822297,
-      "Ficha":"www.google.com",
-      "Maps":"www.google.com"
+      "Plano":"www.amazon.com",
+      "Maps":"www.google.com",
+      "video": "https://www.youtube.com/watch?v=mm8w_2STA1I"
     },
     {
       "Tipo inmueble":"Hotel",
@@ -28,8 +29,10 @@
       "Región":"Región Oriental",
       "Latitud":"13.161462",
       "Longitud":-87.956356,
-      "Ficha":"www.google.com",
-      "Maps":"www.google.com"
+      "Plano":"www.google.com",
+      "Maps":"www.google.com",
+      "video": null
+      
     },
     {
       "Tipo inmueble":"Terreno",
@@ -44,8 +47,9 @@
       "Región":"Región Oriental",
       "Latitud":"13.169911",
       "Longitud":-88.165915,
-      "Ficha":"www.google.com",
-      "Maps":"www.google.com"
+      "Plano":"www.google.com",
+      "Maps":"www.google.com",
+      "video": null
     },
     {
       "Tipo inmueble":"Terreno",
@@ -60,8 +64,9 @@
       "Región":"Región Occidental ",
       "Latitud":"13.323797",
       "Longitud":-88.95485,
-      "Ficha":"www.google.com",
-      "Maps":"www.google.com"
+      "Plano":"www.google.com",
+      "Maps":"www.google.com",
+      "video": null
     },
     {
       "Tipo inmueble":"Terreno",
@@ -76,8 +81,9 @@
       "Región":"Zona Central",
       "Latitud":"13.497910",
       "Longitud":-89.459955,
-      "Ficha":"www.google.com",
-      "Maps":"www.google.com"
+      "Plano":"www.google.com",
+      "Maps":"www.google.com",
+      "video": null
     },
     {
       "Tipo inmueble":"Terreno",
@@ -92,8 +98,9 @@
       "Región":"Región Occidental ",
       "Latitud":"13.681904",
       "Longitud":-89.781842,
-      "Ficha":"www.google.com",
-      "Maps":"www.google.com"
+      "Plano":"www.google.com",
+      "Maps":"www.google.com",
+      "video": null
     },
     {
       "Tipo inmueble":"Terreno Comercial",
@@ -108,8 +115,9 @@
       "Región":"Región Sur",
       "Latitud":"13.9288611",
       "Longitud":-90.8896667,
-      "Ficha":"www.google.com",
-      "Maps":"www.google.com"
+      "Plano":"www.google.com",
+      "Maps":"www.google.com",
+      "video": null
     },
     {
       "Tipo inmueble":"Terreno",
@@ -124,8 +132,9 @@
       "Región":"Región Sur",
       "Latitud":"13.93359",
       "Longitud":-91.145816,
-      "Ficha":"www.google.com",
-      "Maps":"www.google.com"
+      "Plano":"www.google.com",
+      "Maps":"www.google.com",
+      "video": null
     },
     {
       "Tipo inmueble":"Terreno",
@@ -140,8 +149,9 @@
       "Región":"Región Sur",
       "Latitud":"13.938761",
       "Longitud":-90.807687,
-      "Ficha":"www.google.com",
-      "Maps":"www.google.com"
+      "Plano":"www.google.com",
+      "Maps":"www.google.com",
+      "video": null
     },
     {
       "Tipo inmueble":"Terreno",
@@ -156,8 +166,9 @@
       "Región":"Región Occidental ",
       "Latitud":"14.020099,",
       "Longitud":-89.499027,
-      "Ficha":"www.google.com",
-      "Maps":"www.google.com"
+      "Plano":"www.google.com",
+      "Maps":"www.google.com",
+      "video": null
     },
     {
       "Tipo inmueble":"Terreno",
@@ -172,8 +183,9 @@
       "Región":"Región Occidental ",
       "Latitud":"14.023040",
       "Longitud":-89.499864,
-      "Ficha":"www.google.com",
-      "Maps":"www.google.com"
+      "Plano":"www.google.com",
+      "Maps":"www.google.com",
+      "video": null
     },
     {
       "Tipo inmueble":"Terreno Comercial",
@@ -188,8 +200,9 @@
       "Región":"Región Sur",
       "Latitud":"14.1129722",
       "Longitud":-90.74025,
-      "Ficha":"www.google.com",
-      "Maps":"www.google.com"
+      "Plano":"www.google.com",
+      "Maps":"www.google.com",
+      "video": null
     },
     {
       "Tipo inmueble":"Finca",
@@ -204,8 +217,9 @@
       "Región":"Región Sur",
       "Latitud":"14.227527",
       "Longitud":-90.937658,
-      "Ficha":"www.google.com",
-      "Maps":"www.google.com"
+      "Plano":"www.google.com",
+      "Maps":"www.google.com",
+      "video": null
     },
     {
       "Tipo inmueble":"Terreno",
@@ -220,8 +234,9 @@
       "Región":"Región Sur",
       "Latitud":"14.246470",
       "Longitud":-90.77492,
-      "Ficha":"www.google.com",
-      "Maps":"www.google.com"
+      "Plano":"www.google.com",
+      "Maps":"www.google.com",
+      "video": null
     },
     {
       "Tipo inmueble":"Terreno Comercial",
@@ -236,8 +251,9 @@
       "Región":"Región Sur",
       "Latitud":"14.2843494",
       "Longitud":-90.7865333,
-      "Ficha":"www.google.com",
-      "Maps":"www.google.com"
+      "Plano":"www.google.com",
+      "Maps":"www.google.com",
+      "video": null
     },
     {
       "Tipo inmueble":"Terreno Comercial",
@@ -252,8 +268,9 @@
       "Región":"Región Sur",
       "Latitud":"14.2843494",
       "Longitud":-90.7865333,
-      "Ficha":"www.google.com",
-      "Maps":"www.google.com"
+      "Plano":"www.google.com",
+      "Maps":"www.google.com",
+      "video": null
     },
     {
       "Tipo inmueble":"Terreno Comercial",
@@ -268,8 +285,9 @@
       "Región":"Región Sur",
       "Latitud":"14.2843494",
       "Longitud":-90.7865333,
-      "Ficha":"www.google.com",
-      "Maps":"www.google.com"
+      "Plano":"www.google.com",
+      "Maps":"www.google.com",
+      "video": null
     },
     {
       "Tipo inmueble":"Terreno Comercial",
@@ -284,8 +302,9 @@
       "Región":"Región Sur",
       "Latitud":"14.2843494",
       "Longitud":-90.7865333,
-      "Ficha":"www.google.com",
-      "Maps":"www.google.com"
+      "Plano":"www.google.com",
+      "Maps":"www.google.com",
+      "video": null
     },
     {
       "Tipo inmueble":"Terreno Comercial",
@@ -300,8 +319,9 @@
       "Región":"Región Sur",
       "Latitud":"14.2843494",
       "Longitud":-90.7865333,
-      "Ficha":"www.google.com",
-      "Maps":"www.google.com"
+      "Plano":"www.google.com",
+      "Maps":"www.google.com",
+      "video": null
     },
     {
       "Tipo inmueble":"Terreno Comercial",
@@ -316,8 +336,9 @@
       "Región":"Región Sur",
       "Latitud":"14.2843494",
       "Longitud":-90.7865333,
-      "Ficha":"www.google.com",
-      "Maps":"www.google.com"
+      "Plano":"www.google.com",
+      "Maps":"www.google.com",
+      "video": null
     },
     {
       "Tipo inmueble":"Terreno Comercial",
@@ -332,8 +353,9 @@
       "Región":"Región Sur",
       "Latitud":"14.299942",
       "Longitud":-90.78475,
-      "Ficha":"www.google.com",
-      "Maps":"www.google.com"
+      "Plano":"www.google.com",
+      "Maps":"www.google.com",
+      "video": null
     },
     {
       "Tipo inmueble":"Terreno Comercial",
@@ -348,8 +370,9 @@
       "Región":"Región Sur",
       "Latitud":"14.301462",
       "Longitud":-90.7796887,
-      "Ficha":"www.google.com",
-      "Maps":"www.google.com"
+      "Plano":"www.google.com",
+      "Maps":"www.google.com",
+      "video": null
     },
     {
       "Tipo inmueble":"Terreno",
@@ -364,8 +387,9 @@
       "Región":"Región Suroriente",
       "Latitud":"14.307146",
       "Longitud":-90.386383,
-      "Ficha":"www.google.com",
-      "Maps":"www.google.com"
+      "Plano":"www.google.com",
+      "Maps":"www.google.com",
+      "video": null
     },
     {
       "Tipo inmueble":"Terreno",
@@ -380,8 +404,9 @@
       "Región":"Región Sur",
       "Latitud":"14.313102",
       "Longitud":-90.792319,
-      "Ficha":"www.google.com",
-      "Maps":"www.google.com"
+      "Plano":"www.google.com",
+      "Maps":"www.google.com",
+      "video": null
     },
     {
       "Tipo inmueble":"Terreno",
@@ -396,8 +421,9 @@
       "Región":"Región Metropolitana",
       "Latitud":"14.331021",
       "Longitud":-90.560326,
-      "Ficha":"www.google.com",
-      "Maps":"www.google.com"
+      "Plano":"www.google.com",
+      "Maps":"www.google.com",
+      "video": null
     },
     {
       "Tipo inmueble":"Terreno",
@@ -412,8 +438,9 @@
       "Región":"Región Suroccidental ",
       "Latitud":"14.3427902",
       "Longitud":-91.018001,
-      "Ficha":"www.google.com",
-      "Maps":"www.google.com"
+      "Plano":"www.google.com",
+      "Maps":"www.google.com",
+      "video": null
     },
     {
       "Tipo inmueble":"Terreno",
@@ -428,8 +455,9 @@
       "Región":"Región Suroriente",
       "Latitud":"14.346802",
       "Longitud":-89.799747,
-      "Ficha":"www.google.com",
-      "Maps":"www.google.com"
+      "Plano":"www.google.com",
+      "Maps":"www.google.com",
+      "video": null
     },
     {
       "Tipo inmueble":"Terreno Urbano",
@@ -444,8 +472,9 @@
       "Región":"Región Suroccidental ",
       "Latitud":"14.3989678",
       "Longitud":-91.2048221,
-      "Ficha":"www.google.com",
-      "Maps":"www.google.com"
+      "Plano":"www.google.com",
+      "Maps":"www.google.com",
+      "video": null
     },
     {
       "Tipo inmueble":"Terreno Urbano",
@@ -460,8 +489,9 @@
       "Región":"Metropolitana",
       "Latitud":"14.415805",
       "Longitud":-90.482065,
-      "Ficha":"www.google.com",
-      "Maps":"www.google.com"
+      "Plano":"www.google.com",
+      "Maps":"www.google.com",
+      "video": null
     },
     {
       "Tipo inmueble":"Terreno Industrial",
@@ -476,8 +506,9 @@
       "Región":"Metropolitana",
       "Latitud":"14.415805",
       "Longitud":-90.482065,
-      "Ficha":"www.google.com",
-      "Maps":"www.google.com"
+      "Plano":"www.google.com",
+      "Maps":"www.google.com",
+      "video": null
     },
     {
       "Tipo inmueble":"Terreno",
@@ -492,8 +523,9 @@
       "Región":"Región Metropolitana",
       "Latitud":"14.457205",
       "Longitud":-90.478832,
-      "Ficha":"www.google.com",
-      "Maps":"www.google.com"
+      "Plano":"www.google.com",
+      "Maps":"www.google.com",
+      "video": null
     },
     {
       "Tipo inmueble":"Terreno",
@@ -508,8 +540,9 @@
       "Región":"Región Metropolitana",
       "Latitud":"14.459359",
       "Longitud":-90.481199,
-      "Ficha":"www.google.com",
-      "Maps":"www.google.com"
+      "Plano":"www.google.com",
+      "Maps":"www.google.com",
+      "video": null
     },
     {
       "Tipo inmueble":"Terreno",
@@ -524,8 +557,9 @@
       "Región":"Metropolitana",
       "Latitud":"14.4656441",
       "Longitud":-90.4867866,
-      "Ficha":"www.google.com",
-      "Maps":"www.google.com"
+      "Plano":"www.google.com",
+      "Maps":"www.google.com",
+      "video": null
     },
     {
       "Tipo inmueble":"Terreno Comercial",
@@ -540,8 +574,9 @@
       "Región":"Metropolitana",
       "Latitud":"14.4820019",
       "Longitud":-90.4859432,
-      "Ficha":"www.google.com",
-      "Maps":"www.google.com"
+      "Plano":"www.google.com",
+      "Maps":"www.google.com",
+      "video": null
     },
     {
       "Tipo inmueble":"Locales",
@@ -556,8 +591,9 @@
       "Región":"Región Suroccidental ",
       "Latitud":"14.5318605",
       "Longitud":-91.5048755,
-      "Ficha":"www.google.com",
-      "Maps":"www.google.com"
+      "Plano":"www.google.com",
+      "Maps":"www.google.com",
+      "video": null
     },
     {
       "Tipo inmueble":"Terreno Comercial",
@@ -572,8 +608,9 @@
       "Región":"Región Sur Occidental",
       "Latitud":"14.5331675",
       "Longitud":-91.6838084,
-      "Ficha":"www.google.com",
-      "Maps":"www.google.com"
+      "Plano":"www.google.com",
+      "Maps":"www.google.com",
+      "video": null
     },
     {
       "Tipo inmueble":"Finca",
@@ -588,8 +625,9 @@
       "Región":"Región Metropolitana",
       "Latitud":"14.534161",
       "Longitud":-90.414624,
-      "Ficha":"www.google.com",
-      "Maps":"www.google.com"
+      "Plano":"www.google.com",
+      "Maps":"www.google.com",
+      "video": null
     },
     {
       "Tipo inmueble":"Terreno",
@@ -604,8 +642,9 @@
       "Región":"Metropolitana",
       "Latitud":"14.541345",
       "Longitud":-90.455248,
-      "Ficha":"www.google.com",
-      "Maps":"www.google.com"
+      "Plano":"www.google.com",
+      "Maps":"www.google.com",
+      "video": null
     },
     {
       "Tipo inmueble":"Local",
@@ -620,8 +659,9 @@
       "Región":"Metropolitana",
       "Latitud":"14.5431557",
       "Longitud":-90.5921287,
-      "Ficha":"www.google.com",
-      "Maps":"www.google.com"
+      "Plano":"www.google.com",
+      "Maps":"www.google.com",
+      "video": null
     },
     {
       "Tipo inmueble":"Zona ",
@@ -636,8 +676,9 @@
       "Región":"Metropolitana",
       "Latitud":"14.543455",
       "Longitud":-90.603429,
-      "Ficha":"www.google.com",
-      "Maps":"www.google.com"
+      "Plano":"www.google.com",
+      "Maps":"www.google.com",
+      "video": null
     },
     {
       "Tipo inmueble":"Terreno Industrial",
@@ -652,8 +693,9 @@
       "Región":"Metropolitana",
       "Latitud":"14.563592",
       "Longitud":-90.55737,
-      "Ficha":"www.google.com",
-      "Maps":"www.google.com"
+      "Plano":"www.google.com",
+      "Maps":"www.google.com",
+      "video": null
     },
     {
       "Tipo inmueble":"Terreno",
@@ -668,8 +710,9 @@
       "Región":"Región Metropolitana",
       "Latitud":"14.568344",
       "Longitud":-90.583969,
-      "Ficha":"www.google.com",
-      "Maps":"www.google.com"
+      "Plano":"www.google.com",
+      "Maps":"www.google.com",
+      "video": null
     },
     {
       "Tipo inmueble":"Terreno Industrial",
@@ -684,8 +727,9 @@
       "Región":"Región Suroccidental ",
       "Latitud":"14.56987",
       "Longitud":-91.671038,
-      "Ficha":"www.google.com",
-      "Maps":"www.google.com"
+      "Plano":"www.google.com",
+      "Maps":"www.google.com",
+      "video": null
     },
     {
       "Tipo inmueble":"Terreno",
@@ -700,8 +744,9 @@
       "Región":"Metropolitana",
       "Latitud":"14.575465",
       "Longitud":-90.446892,
-      "Ficha":"www.google.com",
-      "Maps":"www.google.com"
+      "Plano":"www.google.com",
+      "Maps":"www.google.com",
+      "video": null
     },
     {
       "Tipo inmueble":"Terreno",
@@ -716,8 +761,9 @@
       "Región":"Metropolitana",
       "Latitud":"14.5758889",
       "Longitud":-90.4469167,
-      "Ficha":"www.google.com",
-      "Maps":"www.google.com"
+      "Plano":"www.google.com",
+      "Maps":"www.google.com",
+      "video": null
     },
     {
       "Tipo inmueble":"Oficina",
@@ -732,8 +778,9 @@
       "Región":"Metropolitana",
       "Latitud":"14.5806855",
       "Longitud":-90.5004821,
-      "Ficha":"www.google.com",
-      "Maps":"www.google.com"
+      "Plano":"www.google.com",
+      "Maps":"www.google.com",
+      "video": null
     },
     {
       "Tipo inmueble":"Terreno",
@@ -748,8 +795,9 @@
       "Región":"Metropolitana",
       "Latitud":"14.5806855",
       "Longitud":-90.5004821,
-      "Ficha":"www.google.com",
-      "Maps":"www.google.com"
+      "Plano":"www.google.com",
+      "Maps":"www.google.com",
+      "video": null
     },
     {
       "Tipo inmueble":"Terreno Comercial",
@@ -764,8 +812,9 @@
       "Región":"Región Central",
       "Latitud":"14.582193",
       "Longitud":-90.752772,
-      "Ficha":"www.google.com",
-      "Maps":"www.google.com"
+      "Plano":"www.google.com",
+      "Maps":"www.google.com",
+      "video": null
     },
     {
       "Tipo inmueble":"Terreno",
@@ -780,8 +829,9 @@
       "Región":"Región Central",
       "Latitud":"14.587422",
       "Longitud":-90.668556,
-      "Ficha":"www.google.com",
-      "Maps":"www.google.com"
+      "Plano":"www.google.com",
+      "Maps":"www.google.com",
+      "video": null
     },
     {
       "Tipo inmueble":"Terreno",
@@ -796,8 +846,9 @@
       "Región":"Metropolitana",
       "Latitud":"14.589811",
       "Longitud":-90.503067,
-      "Ficha":"www.google.com",
-      "Maps":"www.google.com"
+      "Plano":"www.google.com",
+      "Maps":"www.google.com",
+      "video": null
     },
     {
       "Tipo inmueble":"Terreno",
@@ -812,8 +863,9 @@
       "Región":"Región Metropolitana",
       "Latitud":"14.603189",
       "Longitud":-90.500947,
-      "Ficha":"www.google.com",
-      "Maps":"www.google.com"
+      "Plano":"www.google.com",
+      "Maps":"www.google.com",
+      "video": null
     },
     {
       "Tipo inmueble":"Local",
@@ -828,8 +880,9 @@
       "Región":"Metropolitana",
       "Latitud":"14.6243624",
       "Longitud":-90.5515181,
-      "Ficha":"www.google.com",
-      "Maps":"www.google.com"
+      "Plano":"www.google.com",
+      "Maps":"www.google.com",
+      "video": null
     },
     {
       "Tipo inmueble":"Terreno",
@@ -844,8 +897,9 @@
       "Región":"Región Metropolitana",
       "Latitud":"14.636049",
       "Longitud":-90.504613,
-      "Ficha":"www.google.com",
-      "Maps":"www.google.com"
+      "Plano":"www.google.com",
+      "Maps":"www.google.com",
+      "video": null
     },
     {
       "Tipo inmueble":"Terreno",
@@ -860,8 +914,9 @@
       "Región":"Región Metropolitana",
       "Latitud":"14.642065",
       "Longitud":-90.569482,
-      "Ficha":"www.google.com",
-      "Maps":"www.google.com"
+      "Plano":"www.google.com",
+      "Maps":"www.google.com",
+      "video": null
     },
     {
       "Tipo inmueble":"Edificio",
@@ -876,8 +931,9 @@
       "Región":"Metropolitana",
       "Latitud":"14.6506111",
       "Longitud":-90.4907222,
-      "Ficha":"www.google.com",
-      "Maps":"www.google.com"
+      "Plano":"www.google.com",
+      "Maps":"www.google.com",
+      "video": null
     },
     {
       "Tipo inmueble":"Bodega",
@@ -892,8 +948,9 @@
       "Región":"Metropolitana",
       "Latitud":"14.6662686",
       "Longitud":-90.5777832,
-      "Ficha":"www.google.com",
-      "Maps":"www.google.com"
+      "Plano":"www.google.com",
+      "Maps":"www.google.com",
+      "video": null
     },
     {
       "Tipo inmueble":"Terreno Industrial",
@@ -908,8 +965,9 @@
       "Región":"Metropolitana",
       "Latitud":"14.6892222",
       "Longitud":-90.4264444,
-      "Ficha":"www.google.com",
-      "Maps":"www.google.com"
+      "Plano":"www.google.com",
+      "Maps":"www.google.com",
+      "video": null
     },
     {
       "Tipo inmueble":"Terreno",
@@ -924,8 +982,9 @@
       "Región":"Metropolitana",
       "Latitud":"14.691056",
       "Longitud":-90.353361,
-      "Ficha":"www.google.com",
-      "Maps":"www.google.com"
+      "Plano":"www.google.com",
+      "Maps":"www.google.com",
+      "video": null
     },
     {
       "Tipo inmueble":"Terreno",
@@ -940,8 +999,9 @@
       "Región":"Metropolitana",
       "Latitud":"14.692134",
       "Longitud":-90.446801,
-      "Ficha":"www.google.com",
-      "Maps":"www.google.com"
+      "Plano":"www.google.com",
+      "Maps":"www.google.com",
+      "video": null
     },
     {
       "Tipo inmueble":"Terreno",
@@ -956,8 +1016,9 @@
       "Región":"Región Noroeste ",
       "Latitud":"14.730511",
       "Longitud":-90.641542,
-      "Ficha":"www.google.com",
-      "Maps":"www.google.com"
+      "Plano":"www.google.com",
+      "Maps":"www.google.com",
+      "video": null
     },
     {
       "Tipo inmueble":"Terreno",
@@ -972,8 +1033,9 @@
       "Región":"Región Suroccidental",
       "Latitud":"14.742736",
       "Longitud":-91.157169,
-      "Ficha":"www.google.com",
-      "Maps":"www.google.com"
+      "Plano":"www.google.com",
+      "Maps":"www.google.com",
+      "video": null
     },
     {
       "Tipo inmueble":"Bodegas",
@@ -988,8 +1050,9 @@
       "Región":"Región Nororiente",
       "Latitud":"14.753524",
       "Longitud":-89.52634,
-      "Ficha":"www.google.com",
-      "Maps":"www.google.com"
+      "Plano":"www.google.com",
+      "Maps":"www.google.com",
+      "video": null
     },
     {
       "Tipo inmueble":"Terreno",
@@ -1004,8 +1067,9 @@
       "Región":"Región Nororiente",
       "Latitud":"14.754043",
       "Longitud":-89.52312,
-      "Ficha":"www.google.com",
-      "Maps":"www.google.com"
+      "Plano":"www.google.com",
+      "Maps":"www.google.com",
+      "video": null
     },
     {
       "Tipo inmueble":"Terreno",
@@ -1020,8 +1084,9 @@
       "Región":"Región Nororiente",
       "Latitud":"14.806336",
       "Longitud":-90.194599,
-      "Ficha":"www.google.com",
-      "Maps":"www.google.com"
+      "Plano":"www.google.com",
+      "Maps":"www.google.com",
+      "video": null
     },
     {
       "Tipo inmueble":"Terreno",
@@ -1036,8 +1101,9 @@
       "Región":"Región Suroccidente",
       "Latitud":"14.845300",
       "Longitud":-91.521003,
-      "Ficha":"www.google.com",
-      "Maps":"www.google.com"
+      "Plano":"www.google.com",
+      "Maps":"www.google.com",
+      "video": null
     },
     {
       "Tipo inmueble":"Local Comercial",
@@ -1052,8 +1118,9 @@
       "Región":"Región Nororiente",
       "Latitud":"14.978352",
       "Longitud":-89.751883,
-      "Ficha":"www.google.com",
-      "Maps":"www.google.com"
+      "Plano":"www.google.com",
+      "Maps":"www.google.com",
+      "video": null
     },
     {
       "Tipo inmueble":"Terreno",
@@ -1068,8 +1135,9 @@
       "Región":"Región Nororiente",
       "Latitud":"14.980103",
       "Longitud":-89.558106,
-      "Ficha":"www.google.com",
-      "Maps":"www.google.com"
+      "Plano":"www.google.com",
+      "Maps":"www.google.com",
+      "video": null
     },
     {
       "Tipo inmueble":"Terreno",
@@ -1084,8 +1152,9 @@
       "Región":"Región Nororiente",
       "Latitud":"15.000665",
       "Longitud":-89.569027,
-      "Ficha":"www.google.com",
-      "Maps":"www.google.com"
+      "Plano":"www.google.com",
+      "Maps":"www.google.com",
+      "video": null
     },
     {
       "Tipo inmueble":"Terreno",
@@ -1100,8 +1169,9 @@
       "Región":"Región Nororiente",
       "Latitud":"15.1142391",
       "Longitud":-89.4180051,
-      "Ficha":"www.google.com",
-      "Maps":"www.google.com"
+      "Plano":"www.google.com",
+      "Maps":"www.google.com",
+      "video": null
     },
     {
       "Tipo inmueble":"Terreno",
@@ -1116,8 +1186,9 @@
       "Región":"Región Norte",
       "Latitud":"15.454789",
       "Longitud":-90.38373,
-      "Ficha":"www.google.com",
-      "Maps":"www.google.com"
+      "Plano":"www.google.com",
+      "Maps":"www.google.com",
+      "video": null
     },
     {
       "Tipo inmueble":"Terreno",
@@ -1132,8 +1203,9 @@
       "Región":"Región Norte",
       "Latitud":"15.457421",
       "Longitud":-90.387153,
-      "Ficha":"www.google.com",
-      "Maps":"www.google.com"
+      "Plano":"www.google.com",
+      "Maps":"www.google.com",
+      "video": null
     },
     {
       "Tipo inmueble":"Locales",
@@ -1148,8 +1220,9 @@
       "Región":"Región Norte",
       "Latitud":"15.463588",
       "Longitud":-90.378575,
-      "Ficha":"www.google.com",
-      "Maps":"www.google.com"
+      "Plano":"www.google.com",
+      "Maps":"www.google.com",
+      "video": null
     },
     {
       "Tipo inmueble":"Terreno",
@@ -1164,8 +1237,9 @@
       "Región":"Región Nororiente",
       "Latitud":"15.522419",
       "Longitud":-89.338828,
-      "Ficha":"www.google.com",
-      "Maps":"www.google.com"
+      "Plano":"www.google.com",
+      "Maps":"www.google.com",
+      "video": null
     },
     {
       "Tipo inmueble":"Locales",
@@ -1180,8 +1254,9 @@
       "Región":"Región Nororiente",
       "Latitud":"15.697706",
       "Longitud":-88.579299,
-      "Ficha":"www.google.com",
-      "Maps":"www.google.com"
+      "Plano":"www.google.com",
+      "Maps":"www.google.com",
+      "video": null
     },
     {
       "Tipo inmueble":"Terreno",
@@ -1196,8 +1271,9 @@
       "Región":"Región Nororiente",
       "Latitud":"15.717046",
       "Longitud":-88.581309,
-      "Ficha":"www.google.com",
-      "Maps":"www.google.com"
+      "Plano":"www.google.com",
+      "Maps":"www.google.com",
+      "video": null
     },
     {
       "Tipo inmueble":"Terreno",
@@ -1212,7 +1288,8 @@
       "Región":"Región Nororiente",
       "Latitud":"15.717875",
       "Longitud":-88.581505,
-      "Ficha":"www.google.com",
-      "Maps":"www.google.com"
+      "Plano":"www.google.com",
+      "Maps":"www.google.com",
+      "video": null
     }
   ]
