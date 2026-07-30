@@ -1,9 +1,157 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amber | Administración de propiedades</title>
+
+    <link rel="stylesheet" href="css/styles.css">
+
+    <!-- Iconos -->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+    <script src="js/auth.js"></script>
+    <script>
+        if(localStorage.getItem("tipo") !== "mantenimiento"){
+            window.location.href = "mapa.html";
+        }
+    </script>
+</head>
+
 <body>
 
-<h1>Props</h1>
-<p>Mantenimiento de propiedades</p>
+<header>
+
+    <div class="logo">
+        <img src="images/amber-360.jpeg" alt="Amber">
+    </div>
+
+    <nav>
+
+        <a href="mapa.html">Mapa </a>
+        <a href="info.html">Códigos</a>
+        <a href="propiedades.html">Propiedades</a>
+
+    </nav>
+
+    <div class="acciones">
+
+        <span id="bienvenido" class="bienvenido">
+            <i class="fa-solid fa-user"></i>
+            <span id="bienvenido-texto"></span>
+        </span>
+
+        <button onclick="cerrarSesion()">
+            <i class="fa-solid fa-right-from-bracket"></i>
+            Salir
+        </button>
+
+    </div>
+
+</header>
+
+<section class="admin-contenido">
+
+    <div class="admin-titulo">
+        <h1>Administración de propiedades</h1>
+        <p>Aquí puedes consultar, editar y agregar propiedades que se muestran en el mapa.</p>
+    </div>
+
+    <div class="admin-toolbar">
+        <button id="btn-nuevo" class="btn">+ Nueva propiedad</button>
+        <input type="text" id="buscar-propiedad" class="admin-buscar" placeholder="Buscar por código o título">
+        <span id="admin-mensaje" class="admin-mensaje"></span>
+    </div>
+
+    <div id="form-propiedad-contenedor" class="form-propiedad-contenedor" hidden>
+        <form id="form-propiedad" class="form-propiedad">
+            <div class="form-propiedad-campo">
+                <label for="campo-codigo">Código *</label>
+                <input type="text" id="campo-codigo" required>
+            </div>
+            <div class="form-propiedad-campo">
+                <label for="campo-titulo">Título *</label>
+                <input type="text" id="campo-titulo" required>
+            </div>
+            <div class="form-propiedad-campo">
+                <label for="campo-tipo_inmueble">Tipo de inmueble</label>
+                <input type="text" id="campo-tipo_inmueble">
+            </div>
+            <div class="form-propiedad-campo">
+                <label for="campo-giro_negocio">Giro de negocio</label>
+                <input type="text" id="campo-giro_negocio">
+            </div>
+            <div class="form-propiedad-campo">
+                <label for="campo-pais">País</label>
+                <input type="text" id="campo-pais">
+            </div>
+            <div class="form-propiedad-campo">
+                <label for="campo-municipio">Municipio</label>
+                <input type="text" id="campo-municipio">
+            </div>
+            <div class="form-propiedad-campo">
+                <label for="campo-departamento">Departamento</label>
+                <input type="text" id="campo-departamento">
+            </div>
+            <div class="form-propiedad-campo">
+                <label for="campo-region">Región</label>
+                <input type="text" id="campo-region">
+            </div>
+            <div class="form-propiedad-campo">
+                <label for="campo-metros_terreno">Metros terreno</label>
+                <input type="text" id="campo-metros_terreno">
+            </div>
+            <div class="form-propiedad-campo">
+                <label for="campo-varas_terreno">Varas terreno</label>
+                <input type="text" id="campo-varas_terreno">
+            </div>
+            <div class="form-propiedad-campo">
+                <label for="campo-latitud">Latitud</label>
+                <input type="text" id="campo-latitud">
+            </div>
+            <div class="form-propiedad-campo">
+                <label for="campo-longitud">Longitud</label>
+                <input type="text" id="campo-longitud">
+            </div>
+            <div class="form-propiedad-campo">
+                <label for="campo-plano">Plano (URL)</label>
+                <input type="text" id="campo-plano">
+            </div>
+            <div class="form-propiedad-campo">
+                <label for="campo-maps">Maps (URL)</label>
+                <input type="text" id="campo-maps">
+            </div>
+            <div class="form-propiedad-campo">
+                <label for="campo-video">Video (URL de YouTube)</label>
+                <input type="text" id="campo-video">
+            </div>
+            <div class="form-propiedad-acciones">
+                <button type="submit" class="btn btn-small">Guardar</button>
+                <button type="button" id="btn-cancelar-propiedad" class="btn btn-small btn-secondary">Cancelar</button>
+            </div>
+        </form>
+    </div>
+
+    <table class="tabla-codigos">
+        <thead>
+            <tr>
+                <th>Código</th>
+                <th>Título</th>
+                <th>Tipo</th>
+                <th>País</th>
+                <th>Departamento</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody id="tabla-propiedades-body">
+        </tbody>
+    </table>
+
+</section>
+
+<script src="js/propiedades-admin.js"></script>
 
 </body>
 </html>

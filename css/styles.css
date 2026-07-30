@@ -457,3 +457,50 @@ body.login-page {
     display:flex;
     gap:8px;
 }
+
+/* ADMIN PROPIEDADES */
+
+.form-propiedad-contenedor{
+    background:white;
+    border-radius:12px;
+    box-shadow:0 4px 20px rgba(0,0,0,.08);
+    padding:24px;
+    margin-bottom:20px;
+}
+
+.form-propiedad{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(220px, 1fr));
+    gap:16px;
+}
+
+.form-propiedad-campo{
+    display:flex;
+    flex-direction:column;
+    gap:6px;
+}
+
+.form-propiedad-campo label{
+    font-size:13px;
+    font-weight:600;
+    color:#555;
+}
+
+.form-propiedad-campo input{
+    padding:10px 12px;
+    border:1px solid #ddd;
+    border-radius:8px;
+    font-family:inherit;
+    font-size:14px;
+    outline:none;
+}
+
+.form-propiedad-campo input:focus{
+    border-color:#F7941D;
+}
+
+.form-propiedad-acciones{
+    grid-column:1 / -1;
+    display:flex;
+    gap:10px;
+}

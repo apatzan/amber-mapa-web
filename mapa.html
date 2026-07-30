@@ -202,15 +202,15 @@
 
         function construirPopup(propiedad){
             const campos = [
-                ['Tipo de inmueble', propiedad['Tipo inmueble']],
-                ['Código', propiedad['Código']],
-                ['Giro de negocio', propiedad['Giro de negocio']],
-                ['País', propiedad['Pais ']],
-                ['Municipio', propiedad['Municipio']],
-                ['Departamento', propiedad['Departamento']],
-                ['Metros terreno', propiedad['Metros Terreno']],
-                ['Varas terreno', propiedad['Varas terreno']],
-                ['Región', propiedad['Región']]
+                ['Tipo de inmueble', propiedad.tipo_inmueble],
+                ['Código', propiedad.codigo],
+                ['Giro de negocio', propiedad.giro_negocio],
+                ['País', propiedad.pais],
+                ['Municipio', propiedad.municipio],
+                ['Departamento', propiedad.departamento],
+                ['Metros terreno', propiedad.metros_terreno],
+                ['Varas terreno', propiedad.varas_terreno],
+                ['Región', propiedad.region]
             ];
 
             const filas = campos
@@ -218,9 +218,9 @@
                 .map(([etiqueta, valor]) => `<li><strong>${escapeHtml(etiqueta)}:</strong> ${escapeHtml(valor)}</li>`)
                 .join('');
 
-            const planoUrl = normalizarUrl(propiedad['Plano']);
-            const mapsUrl = normalizarUrl(propiedad['Maps']);
-            const videoId = obtenerYoutubeId(propiedad['video']);
+            const planoUrl = normalizarUrl(propiedad.plano);
+            const mapsUrl = normalizarUrl(propiedad.maps);
+            const videoId = obtenerYoutubeId(propiedad.video);
 
             const botones = `
                 <div class="popup-acciones">
@@ -233,24 +233,24 @@
                 </div>` : ''}
             `;
 
-            const imagenHtml = construirImagenPropiedad(propiedad['Código']);
+            const imagenHtml = construirImagenPropiedad(propiedad.codigo);
 
             return `
                 <div class="popup-propiedad">
                     ${imagenHtml}
-                    <h3>${escapeHtml(propiedad['Titulo'] || 'Propiedad')}</h3>
+                    <h3>${escapeHtml(propiedad.titulo || 'Propiedad')}</h3>
                     <ul>${filas}</ul>
                     ${botones}
                 </div>
             `;
         }
 
-        fetch('data/propiedades.json')
+        fetch('/api/propiedades')
             .then(res => res.json())
-            .then(propiedades => {
-                propiedades.forEach(propiedad => {
-                    const lat = parseLatitud(propiedad['Latitud']);
-                    const lng = parseLongitud(propiedad['Longitud']);
+            .then(datos => {
+                datos.propiedades.forEach(propiedad => {
+                    const lat = parseLatitud(propiedad.latitud);
+                    const lng = parseLongitud(propiedad.longitud);
 
                     if(lat === null || lng === null) return;
 

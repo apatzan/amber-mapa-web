@@ -127,6 +127,113 @@ app.delete("/api/codigos/:id", requireMantenimiento, (req, res) => {
     res.status(204).end();
 });
 
+const CAMPOS_PROPIEDAD = [
+    "tipo_inmueble", "titulo", "codigo", "giro_negocio", "pais", "municipio",
+    "departamento", "metros_terreno", "varas_terreno", "region", "latitud",
+    "longitud", "plano", "maps", "video"
+];
+
+function normalizarCamposPropiedad(body){
+    const propiedad = {};
+
+    for(const campo of CAMPOS_PROPIEDAD){
+        const valor = body[campo];
+
+        if(campo === "longitud"){
+            propiedad.longitud = valor === "" || valor === null || valor === undefined
+                ? null
+                : Number(valor);
+            continue;
+        }
+
+        propiedad[campo] = valor === "" || valor === null || valor === undefined
+            ? null
+            : String(valor).trim();
+    }
+
+    return propiedad;
+}
+
+app.get("/api/propiedades", (req, res) => {
+    const propiedades = db.prepare("SELECT * FROM propiedades ORDER BY id").all();
+    res.json({ propiedades });
+});
+
+app.post("/api/propiedades", requireMantenimiento, (req, res) => {
+    const propiedad = normalizarCamposPropiedad(req.body);
+
+    if(!propiedad.codigo || !propiedad.titulo){
+        return res.status(400).json({ error: "Código y título son obligatorios" });
+    }
+
+    try{
+        const resultado = db
+            .prepare(`
+                INSERT INTO propiedades (
+                    tipo_inmueble, titulo, codigo, giro_negocio, pais, municipio, departamento,
+                    metros_terreno, varas_terreno, region, latitud, longitud, plano, maps, video
+                ) VALUES (
+                    @tipo_inmueble, @titulo, @codigo, @giro_negocio, @pais, @municipio, @departamento,
+                    @metros_terreno, @varas_terreno, @region, @latitud, @longitud, @plano, @maps, @video
+                )
+            `)
+            .run(propiedad);
+
+        res.status(201).json({ id: resultado.lastInsertRowid, ...propiedad });
+    }catch(error){
+        if(error.code === "SQLITE_CONSTRAINT_UNIQUE"){
+            return res.status(409).json({ error: `El código ${propiedad.codigo} ya existe` });
+        }
+        throw error;
+    }
+});
+
+app.put("/api/propiedades/:id", requireMantenimiento, (req, res) => {
+    const { id } = req.params;
+    const propiedad = normalizarCamposPropiedad(req.body);
+
+    if(!propiedad.codigo || !propiedad.titulo){
+        return res.status(400).json({ error: "Código y título son obligatorios" });
+    }
+
+    try{
+        const resultado = db
+            .prepare(`
+                UPDATE propiedades SET
+                    tipo_inmueble = @tipo_inmueble, titulo = @titulo, codigo = @codigo,
+                    giro_negocio = @giro_negocio, pais = @pais, municipio = @municipio,
+                    departamento = @departamento, metros_terreno = @metros_terreno,
+                    varas_terreno = @varas_terreno, region = @region, latitud = @latitud,
+                    longitud = @longitud, plano = @plano, maps = @maps, video = @video
+                WHERE id = @id
+            `)
+            .run({ ...propiedad, id });
+
+        if(resultado.changes === 0){
+            return res.status(404).json({ error: "Propiedad no encontrada" });
+        }
+
+        res.json({ id: Number(id), ...propiedad });
+    }catch(error){
+        if(error.code === "SQLITE_CONSTRAINT_UNIQUE"){
+            return res.status(409).json({ error: `El código ${propiedad.codigo} ya existe` });
+        }
+        throw error;
+    }
+});
+
+app.delete("/api/propiedades/:id", requireMantenimiento, (req, res) => {
+    const { id } = req.params;
+
+    const resultado = db.prepare("DELETE FROM propiedades WHERE id = ?").run(id);
+
+    if(resultado.changes === 0){
+        return res.status(404).json({ error: "Propiedad no encontrada" });
+    }
+
+    res.status(204).end();
+});
+
 app.listen(PORT, () => {
     console.log(`Amber corriendo en http://localhost:${PORT}`);
 });
