@@ -3,23 +3,24 @@ async function validar(){
     const codigoIngresado =
         document.getElementById("codigo").value.trim();
 
-    const respuesta =
-        await fetch("data/codigos.json");
+    const respuesta = await fetch("/api/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ codigo: codigoIngresado })
+    });
 
-    const datos =
-        await respuesta.json();
+    if(respuesta.ok){
 
-    const usuario =
-        datos.codigos.find(
-            item => item.codigo === codigoIngresado
-        );
-
-    if(usuario){
+        const usuario = await respuesta.json();
 
         localStorage.setItem("autenticado","true");
         localStorage.setItem("usuario",usuario.nombre);
+        localStorage.setItem("tipo",usuario.tipo);
+        localStorage.setItem("token",usuario.token);
 
-        window.location.href="mapa.html";
+        window.location.href = usuario.tipo === "mantenimiento"
+            ? "info.html"
+            : "mapa.html";
 
     }else{
 

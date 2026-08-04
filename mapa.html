@@ -14,6 +14,8 @@
     <!-- Iconos -->
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+    <script src="js/auth.js"></script>
 </head>
 
 <body>
@@ -21,27 +23,32 @@
 <header>
 
     <div class="logo">
-        <img src="images/amber-logo.jpeg" alt="Amber">
+        <img src="images/amber-360.jpeg" alt="Amber">
     </div>
 
     <nav>
 
         <a href="#">Inicio</a>
-        <a href="#">Propiedades</a>
-        <a href="#">Asesores</a>
         <a href="#">Contacto</a>
 
     </nav>
 
     <div class="acciones">
 
+        <span id="bienvenido" class="bienvenido">
+            <i class="fa-solid fa-user"></i>
+            <span id="bienvenido-texto"></span>
+        </span>
+
+        <!--
         <button>
             <i class="fa-solid fa-magnifying-glass"></i>
             Buscar
-            <button onclick="cerrarSesion()">                                                                                                                                                  
-            <i class="fa-solid fa-right-from-bracket"></i>                                                                                                                                 
-            Salir                                                                                                                                                                          
-            </button>  
+        </button>
+        -->
+        <button onclick="cerrarSesion()">
+            <i class="fa-solid fa-right-from-bracket"></i>
+            Salir
         </button>
 
     </div>
@@ -52,6 +59,17 @@
 <section class="mapa">
     <div id="map"></div>
 </section>
+
+<div id="video-modal" class="video-modal" onclick="if(event.target === this) cerrarVideoModal()">
+    <div class="video-modal-contenido">
+        <button type="button" class="video-modal-cerrar" onclick="cerrarVideoModal()" aria-label="Cerrar video">&times;</button>
+        <div class="video-modal-embed">
+            <iframe id="video-modal-iframe" src="" title="Video de la propiedad" frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen></iframe>
+        </div>
+    </div>
+</div>
 
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
@@ -136,17 +154,63 @@
             return /^https?:\/\//i.test(texto) ? texto : `https://${texto}`;
         }
 
+        function obtenerYoutubeId(url){
+            if(!url) return null;
+
+            const texto = String(url).trim();
+            if(!texto) return null;
+
+            const match = texto.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|v\/|shorts\/))([A-Za-z0-9_-]{11})/);
+            return match ? match[1] : null;
+        }
+
+        function abrirVideoModal(videoId){
+            document.getElementById('video-modal-iframe').src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+            document.getElementById('video-modal').classList.add('activo');
+        }
+
+        function cerrarVideoModal(){
+            document.getElementById('video-modal').classList.remove('activo');
+            document.getElementById('video-modal-iframe').src = '';
+        }
+
+        document.addEventListener('keydown', evento => {
+            if(evento.key === 'Escape') cerrarVideoModal();
+        });
+
+        const EXTENSIONES_IMAGEN_PROPIEDAD = ['jpg', 'jpeg', 'png', 'webp'];
+
+        function construirImagenPropiedad(codigo){
+            const codigoSeguro = codigo ? String(codigo).trim() : '';
+            if(!codigoSeguro) return '';
+
+            const codigoEscapado = escapeHtml(codigoSeguro);
+            return `<div class="popup-imagen"><img src="images/propiedades/${codigoEscapado}.${EXTENSIONES_IMAGEN_PROPIEDAD[0]}" data-codigo="${codigoEscapado}" data-ext-index="0" onerror="manejarErrorImagenPropiedad(this)"></div>`;
+        }
+
+        function manejarErrorImagenPropiedad(img){
+            const siguienteIndex = Number(img.dataset.extIndex) + 1;
+
+            if(siguienteIndex < EXTENSIONES_IMAGEN_PROPIEDAD.length){
+                img.dataset.extIndex = siguienteIndex;
+                img.src = `images/propiedades/${img.dataset.codigo}.${EXTENSIONES_IMAGEN_PROPIEDAD[siguienteIndex]}`;
+                return;
+            }
+
+            img.closest('.popup-imagen')?.remove();
+        }
+
         function construirPopup(propiedad){
             const campos = [
-                ['Tipo de inmueble', propiedad['Tipo inmueble']],
-                ['Código', propiedad['Código']],
-                ['Giro de negocio', propiedad['Giro de negocio']],
-                ['País', propiedad['Pais ']],
-                ['Municipio', propiedad['Municipio']],
-                ['Departamento', propiedad['Departamento']],
-                ['Metros terreno', propiedad['Metros Terreno']],
-                ['Varas terreno', propiedad['Varas terreno']],
-                ['Región', propiedad['Región']]
+                ['Tipo de inmueble', propiedad.tipo_inmueble],
+                ['Código', propiedad.codigo],
+                ['Giro de negocio', propiedad.giro_negocio],
+                ['País', propiedad.pais],
+                ['Municipio', propiedad.municipio],
+                ['Departamento', propiedad.departamento],
+                ['Metros terreno', propiedad.metros_terreno],
+                ['Varas terreno', propiedad.varas_terreno],
+                ['Región', propiedad.region]
             ];
 
             const filas = campos
@@ -154,31 +218,39 @@
                 .map(([etiqueta, valor]) => `<li><strong>${escapeHtml(etiqueta)}:</strong> ${escapeHtml(valor)}</li>`)
                 .join('');
 
-            const fichaUrl = normalizarUrl(propiedad['Ficha']);
-            const mapsUrl = normalizarUrl(propiedad['Maps']);
+            const planoUrl = normalizarUrl(propiedad.plano);
+            const mapsUrl = normalizarUrl(propiedad.maps);
+            const videoId = obtenerYoutubeId(propiedad.video);
 
             const botones = `
                 <div class="popup-acciones">
-                    ${fichaUrl ? `<a href="${escapeHtml(fichaUrl)}" target="_blank" rel="noopener noreferrer" class="popup-btn">Ubicación Específica</a>` : ''}
+                    ${planoUrl ? `<a href="${escapeHtml(planoUrl)}" target="_blank" rel="noopener noreferrer" class="popup-btn">Ubicación Específica</a>` : ''}
                     ${mapsUrl ? `<a href="${escapeHtml(mapsUrl)}" target="_blank" rel="noopener noreferrer" class="popup-btn">Ver en Maps</a>` : ''}
                 </div>
+                ${videoId ? `
+                <div class="popup-acciones popup-acciones-video">
+                    <button type="button" class="popup-btn popup-btn-video" onclick="abrirVideoModal('${videoId}')">Recorrido virtual</button>
+                </div>` : ''}
             `;
+
+            const imagenHtml = construirImagenPropiedad(propiedad.codigo);
 
             return `
                 <div class="popup-propiedad">
-                    <h3>${escapeHtml(propiedad['Titulo'] || 'Propiedad')}</h3>
+                    ${imagenHtml}
+                    <h3>${escapeHtml(propiedad.titulo || 'Propiedad')}</h3>
                     <ul>${filas}</ul>
                     ${botones}
                 </div>
             `;
         }
 
-        fetch('data/propiedades.json')
+        fetch('/api/propiedades')
             .then(res => res.json())
-            .then(propiedades => {
-                propiedades.forEach(propiedad => {
-                    const lat = parseLatitud(propiedad['Latitud']);
-                    const lng = parseLongitud(propiedad['Longitud']);
+            .then(datos => {
+                datos.propiedades.forEach(propiedad => {
+                    const lat = parseLatitud(propiedad.latitud);
+                    const lng = parseLongitud(propiedad.longitud);
 
                     if(lat === null || lng === null) return;
 
@@ -188,6 +260,5 @@
                 });
             });
     </script>
-    <script src="js/auth.js"></script>
 </body>
 </html>

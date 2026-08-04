@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amber | Administración de códigos</title>
+
+    <link rel="stylesheet" href="css/styles.css">
+
+    <!-- Iconos -->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+    <script src="js/auth.js"></script>
+    <script>
+        if(localStorage.getItem("tipo") !== "mantenimiento"){
+            window.location.href = "mapa.html";
+        }
+    </script>
+</head>
+
+<body>
+
+<header>
+
+    <div class="logo">
+        <img src="images/amber-360.jpeg" alt="Amber">
+    </div>
+
+    <nav>
+
+        <a href="mapa.html">Mapa </a>
+        <a href="info.html">Códigos</a>
+        <a href="propiedades.html">Propiedades</a>
+        
+
+    </nav>
+
+    <div class="acciones">
+
+        <span id="bienvenido" class="bienvenido">
+            <i class="fa-solid fa-user"></i>
+            <span id="bienvenido-texto"></span>
+        </span>
+
+        <button onclick="cerrarSesion()">
+            <i class="fa-solid fa-right-from-bracket"></i>
+            Salir
+        </button>
+
+    </div>
+
+</header>
+
+<section class="admin-contenido">
+
+    <div class="admin-titulo">
+        <h1>Administración de códigos</h1>
+        <p>Aquí puedes consultar, editar y agregar códigos de acceso.</p>
+    </div>
+
+    <div class="admin-toolbar">
+        <button id="btn-nuevo" class="btn">+ Nuevo código</button>
+        <input type="text" id="buscar-nombre" class="admin-buscar" placeholder="Buscar por nombre">
+        <span id="admin-mensaje" class="admin-mensaje"></span>
+    </div>
+
+    <table class="tabla-codigos">
+        <thead>
+            <tr>
+                <th>Código</th>
+                <th>Nombre</th>
+                <th>Tipo</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody id="tabla-codigos-body">
+        </tbody>
+    </table>
+
+</section>
+
+<script src="js/codigos-admin.js"></script>
+
+</body>
+</html>
