@@ -179,6 +179,12 @@ body.login-page {
     background: #db7f0f;
 }
 
+.login-aviso {
+    color: #888;
+    font-size: 12px;
+    text-align: center;
+}
+
 #mensaje {
     color: #c0392b;
     font-size: 14px;
@@ -503,4 +509,78 @@ body.login-page {
     grid-column:1 / -1;
     display:flex;
     gap:10px;
+}
+
+/* CONTACTO */
+
+.contacto-card{
+    max-width:640px;
+    background:white;
+    border-radius:12px;
+    box-shadow:0 4px 20px rgba(0,0,0,.08);
+    padding:32px;
+}
+
+.contacto-lista{
+    list-style:none;
+}
+
+.contacto-lista li{
+    display:flex;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:14px;
+    padding:16px 0;
+    border-bottom:1px solid #eee;
+}
+
+.contacto-lista li:last-child{
+    border-bottom:none;
+}
+
+.contacto-lista li > i{
+    width:22px;
+    flex-shrink:0;
+    text-align:center;
+    color:#F7941D;
+    font-size:18px;
+}
+
+.contacto-lista a{
+    color:#333;
+    font-weight:600;
+    text-decoration:none;
+}
+
+.contacto-lista a:hover{
+    color:#F7941D;
+}
+
+.contacto-lista span{
+    color:#555;
+}
+
+.contacto-whatsapp{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    margin-left:auto;
+    background:#25D366;
+    color:white !important;
+    padding:8px 16px;
+    border-radius:30px;
+    font-size:13px;
+    font-weight:600;
+    transition:.3s;
+}
+
+.contacto-whatsapp:hover{
+    background:#1ebe57;
+    color:white !important;
+}
+
+.contacto-whatsapp i{
+    width:auto;
+    color:white;
+    font-size:15px;
 }
