@@ -179,6 +179,12 @@ body.login-page {
     background: #db7f0f;
 }
 
+.login-aviso {
+    color: #888;
+    font-size: 12px;
+    text-align: center;
+}
+
 #mensaje {
     color: #c0392b;
     font-size: 14px;
