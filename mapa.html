@@ -28,8 +28,8 @@
 
     <nav>
 
-        <a href="#">Inicio</a>
-        <a href="#">Contacto</a>
+        <a href="mapa.html">Inicio</a>
+        <a href="contacto.html">Contacto</a>
 
     </nav>
 
@@ -164,8 +164,28 @@
             return match ? match[1] : null;
         }
 
-        function abrirVideoModal(videoId){
-            document.getElementById('video-modal-iframe').src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+        function obtenerDriveId(url){
+            if(!url) return null;
+
+            const texto = String(url).trim();
+            if(!texto) return null;
+
+            const match = texto.match(/drive\.google\.com\/(?:file\/d\/|open\?id=|uc\?id=)([A-Za-z0-9_-]+)/);
+            return match ? match[1] : null;
+        }
+
+        function obtenerVideoEmbedUrl(url){
+            const youtubeId = obtenerYoutubeId(url);
+            if(youtubeId) return `https://www.youtube.com/embed/${youtubeId}?autoplay=1`;
+
+            const driveId = obtenerDriveId(url);
+            if(driveId) return `https://drive.google.com/file/d/${driveId}/preview`;
+
+            return null;
+        }
+
+        function abrirVideoModal(embedUrl){
+            document.getElementById('video-modal-iframe').src = embedUrl;
             document.getElementById('video-modal').classList.add('activo');
         }
 
@@ -220,16 +240,16 @@
 
             const planoUrl = normalizarUrl(propiedad.plano);
             const mapsUrl = normalizarUrl(propiedad.maps);
-            const videoId = obtenerYoutubeId(propiedad.video);
+            const videoEmbedUrl = obtenerVideoEmbedUrl(propiedad.video);
 
             const botones = `
                 <div class="popup-acciones">
                     ${planoUrl ? `<a href="${escapeHtml(planoUrl)}" target="_blank" rel="noopener noreferrer" class="popup-btn">Ubicación Específica</a>` : ''}
                     ${mapsUrl ? `<a href="${escapeHtml(mapsUrl)}" target="_blank" rel="noopener noreferrer" class="popup-btn">Ver en Maps</a>` : ''}
                 </div>
-                ${videoId ? `
+                ${videoEmbedUrl ? `
                 <div class="popup-acciones popup-acciones-video">
-                    <button type="button" class="popup-btn popup-btn-video" onclick="abrirVideoModal('${videoId}')">Recorrido virtual</button>
+                    <button type="button" class="popup-btn popup-btn-video" onclick="abrirVideoModal('${videoEmbedUrl}')">Recorrido virtual</button>
                 </div>` : ''}
             `;
 
