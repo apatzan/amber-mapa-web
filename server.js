@@ -130,7 +130,7 @@ app.delete("/api/codigos/:id", requireMantenimiento, (req, res) => {
 const CAMPOS_PROPIEDAD = [
     "tipo_inmueble", "titulo", "codigo", "giro_negocio", "pais", "municipio",
     "departamento", "metros_terreno", "varas_terreno", "region", "latitud",
-    "longitud", "plano", "maps", "video"
+    "longitud", "plano", "maps", "video", "link_amber"
 ];
 
 function normalizarCamposPropiedad(body){
@@ -171,10 +171,10 @@ app.post("/api/propiedades", requireMantenimiento, (req, res) => {
             .prepare(`
                 INSERT INTO propiedades (
                     tipo_inmueble, titulo, codigo, giro_negocio, pais, municipio, departamento,
-                    metros_terreno, varas_terreno, region, latitud, longitud, plano, maps, video
+                    metros_terreno, varas_terreno, region, latitud, longitud, plano, maps, video, link_amber
                 ) VALUES (
                     @tipo_inmueble, @titulo, @codigo, @giro_negocio, @pais, @municipio, @departamento,
-                    @metros_terreno, @varas_terreno, @region, @latitud, @longitud, @plano, @maps, @video
+                    @metros_terreno, @varas_terreno, @region, @latitud, @longitud, @plano, @maps, @video, @link_amber
                 )
             `)
             .run(propiedad);
@@ -204,7 +204,8 @@ app.put("/api/propiedades/:id", requireMantenimiento, (req, res) => {
                     giro_negocio = @giro_negocio, pais = @pais, municipio = @municipio,
                     departamento = @departamento, metros_terreno = @metros_terreno,
                     varas_terreno = @varas_terreno, region = @region, latitud = @latitud,
-                    longitud = @longitud, plano = @plano, maps = @maps, video = @video
+                    longitud = @longitud, plano = @plano, maps = @maps, video = @video,
+                    link_amber = @link_amber
                 WHERE id = @id
             `)
             .run({ ...propiedad, id });

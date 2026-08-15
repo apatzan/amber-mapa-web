@@ -240,12 +240,14 @@
 
             const planoUrl = normalizarUrl(propiedad.plano);
             const mapsUrl = normalizarUrl(propiedad.maps);
+            const linkAmberUrl = normalizarUrl(propiedad.link_amber);
             const videoEmbedUrl = obtenerVideoEmbedUrl(propiedad.video);
 
             const botones = `
                 <div class="popup-acciones">
                     ${planoUrl ? `<a href="${escapeHtml(planoUrl)}" target="_blank" rel="noopener noreferrer" class="popup-btn">Ubicación Específica</a>` : ''}
                     ${mapsUrl ? `<a href="${escapeHtml(mapsUrl)}" target="_blank" rel="noopener noreferrer" class="popup-btn">Ver en Maps</a>` : ''}
+                    ${linkAmberUrl ? `<a href="${escapeHtml(linkAmberUrl)}" target="_blank" rel="noopener noreferrer" class="popup-btn">Ver detalles</a>` : ''}
                 </div>
                 ${videoEmbedUrl ? `
                 <div class="popup-acciones popup-acciones-video">
