@@ -5,7 +5,7 @@ let terminoBusqueda = "";
 const CAMPOS_PROPIEDAD = [
     "codigo", "titulo", "tipo_inmueble", "giro_negocio", "pais", "municipio",
     "departamento", "region", "metros_terreno", "varas_terreno", "latitud",
-    "longitud", "plano", "maps", "video"
+    "longitud", "plano", "maps", "video", "link_amber"
 ];
 
 function authFetch(url, opciones = {}){
