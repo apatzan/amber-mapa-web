@@ -58,6 +58,21 @@
 
 <section class="mapa">
     <div id="map"></div>
+
+    <div class="filtro-propiedades">
+        <button type="button" id="filtro-toggle" class="filtro-toggle" onclick="alternarFiltroPanel()">
+            <i class="fa-solid fa-filter"></i>
+            <span>Filtrar</span>
+        </button>
+        <div id="filtro-panel" class="filtro-panel">
+            <h4>Tipo de inmueble</h4>
+            <div id="filtro-opciones" class="filtro-opciones"></div>
+            <div class="filtro-acciones">
+                <button type="button" onclick="seleccionarTodosTipos()">Todos</button>
+                <button type="button" onclick="deseleccionarTodosTipos()">Ninguno</button>
+            </div>
+        </div>
+    </div>
 </section>
 
 <div id="video-modal" class="video-modal" onclick="if(event.target === this) cerrarVideoModal()">
@@ -267,19 +282,101 @@
             `;
         }
 
+        // Marcadores agregados al mapa, junto con su tipo de inmueble, para poder
+        // mostrarlos/ocultarlos según el filtro sin volver a pedirlos a la API.
+        let propiedadesConMarcador = [];
+        const tiposSeleccionados = new Set();
+
+        function normalizarTipo(tipo){
+            return (tipo === null || tipo === undefined) ? '' : String(tipo).trim();
+        }
+
+        // Las propiedades sin tipo de inmueble no tienen casilla en el filtro,
+        // así que siempre se muestran (el filtro no aplica sobre ellas).
+        function actualizarVisibilidadMarcadores(){
+            propiedadesConMarcador.forEach(({ marker, tipo }) => {
+                const visible = !tipo || tiposSeleccionados.has(tipo);
+                const enMapa = map.hasLayer(marker);
+
+                if(visible && !enMapa){
+                    marker.addTo(map);
+                } else if(!visible && enMapa){
+                    map.removeLayer(marker);
+                }
+            });
+        }
+
+        function alternarFiltroPanel(){
+            document.getElementById('filtro-panel').classList.toggle('abierto');
+        }
+
+        function seleccionarTodosTipos(){
+            document.querySelectorAll('#filtro-opciones input[type="checkbox"]').forEach(input => {
+                input.checked = true;
+                tiposSeleccionados.add(input.value);
+            });
+            actualizarVisibilidadMarcadores();
+        }
+
+        function deseleccionarTodosTipos(){
+            document.querySelectorAll('#filtro-opciones input[type="checkbox"]').forEach(input => {
+                input.checked = false;
+            });
+            tiposSeleccionados.clear();
+            actualizarVisibilidadMarcadores();
+        }
+
+        function construirFiltroTipos(tipos){
+            const contenedor = document.getElementById('filtro-opciones');
+
+            tipos.forEach(tipo => {
+                tiposSeleccionados.add(tipo);
+
+                const id = `filtro-tipo-${tipo.replace(/\s+/g, '-').toLowerCase()}`;
+                const tipoEscapado = escapeHtml(tipo);
+
+                const opcion = document.createElement('label');
+                opcion.className = 'filtro-opcion';
+                opcion.setAttribute('for', id);
+                opcion.innerHTML = `
+                    <input type="checkbox" id="${id}" value="${tipoEscapado}" checked>
+                    <span>${tipoEscapado}</span>
+                `;
+
+                opcion.querySelector('input').addEventListener('change', evento => {
+                    if(evento.target.checked){
+                        tiposSeleccionados.add(tipo);
+                    } else {
+                        tiposSeleccionados.delete(tipo);
+                    }
+                    actualizarVisibilidadMarcadores();
+                });
+
+                contenedor.appendChild(opcion);
+            });
+        }
+
         fetch('/api/propiedades')
             .then(res => res.json())
             .then(datos => {
+                const tiposEncontrados = new Set();
+
                 datos.propiedades.forEach(propiedad => {
                     const lat = parseLatitud(propiedad.latitud);
                     const lng = parseLongitud(propiedad.longitud);
 
                     if(lat === null || lng === null) return;
 
-                    L.marker([lat, lng], { icon: iconoPropiedad })
-                        .addTo(map)
+                    const tipo = normalizarTipo(propiedad.tipo_inmueble);
+                    const marker = L.marker([lat, lng], { icon: iconoPropiedad })
                         .bindPopup(construirPopup(propiedad));
+
+                    propiedadesConMarcador.push({ marker, tipo });
+                    if(tipo) tiposEncontrados.add(tipo);
                 });
+
+                construirFiltroTipos(Array.from(tiposEncontrados).sort((a, b) => a.localeCompare(b, 'es')));
+                actualizarVisibilidadMarcadores();
             });
     </script>
 </body>
