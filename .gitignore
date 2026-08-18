@@ -3,3 +3,6 @@ node_modules/
 data/amber.db
 data/amber.db-shm
 data/amber.db-wal
+amber.db
+amber.db-shm
+amber.db-wal
