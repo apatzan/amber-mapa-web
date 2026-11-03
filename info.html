@@ -66,12 +66,36 @@
         <span id="admin-mensaje" class="admin-mensaje"></span>
     </div>
 
+    <div id="asignacion-contenedor" class="form-propiedad-contenedor" hidden>
+        <div class="asignacion-encabezado">
+            <h2 id="asignacion-titulo"></h2>
+            <p>Selecciona las propiedades que verá este código en el mapa. Si no seleccionas ninguna, verá todas.</p>
+        </div>
+
+        <div class="admin-toolbar">
+            <input type="text" id="buscar-asignacion" class="admin-buscar" placeholder="Buscar propiedad">
+            <input type="number" id="varas-desde" class="admin-buscar admin-buscar-varas" min="0" placeholder="Varas desde">
+            <input type="number" id="varas-hasta" class="admin-buscar admin-buscar-varas" min="0" placeholder="Varas hasta">
+            <button type="button" id="btn-marcar-listadas" class="btn btn-small btn-secondary">Marcar listadas</button>
+            <button type="button" id="btn-desmarcar-listadas" class="btn btn-small btn-secondary">Desmarcar listadas</button>
+            <span id="asignacion-contador" class="asignacion-contador"></span>
+        </div>
+
+        <div id="asignacion-lista" class="asignacion-lista"></div>
+
+        <div class="form-propiedad-acciones">
+            <button type="button" id="btn-guardar-asignacion" class="btn">Guardar</button>
+            <button type="button" id="btn-cancelar-asignacion" class="btn btn-secondary">Cancelar</button>
+        </div>
+    </div>
+
     <table class="tabla-codigos">
         <thead>
             <tr>
                 <th>Código</th>
                 <th>Nombre</th>
                 <th>Tipo</th>
+                <th>Propiedades</th>
                 <th>Acciones</th>
             </tr>
         </thead>

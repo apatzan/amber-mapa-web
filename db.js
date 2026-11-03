@@ -8,6 +8,7 @@ const SEED_PROPIEDADES_PATH = path.join(__dirname, "data", "propiedades.json");
 
 const db = new Database(DB_PATH);
 db.pragma("journal_mode = WAL");
+db.pragma("foreign_keys = ON");
 
 db.exec(`
     CREATE TABLE IF NOT EXISTS codigos (
@@ -36,6 +37,22 @@ db.exec(`
         plano TEXT,
         maps TEXT,
         video TEXT
+    )
+`);
+
+// propiedades_limitadas se guarda aparte de codigos_propiedades para que un código
+// limitado no pase a ver todas las propiedades si se eliminan las que tenía asignadas.
+const columnasCodigos = db.pragma("table_info(codigos)");
+
+if(!columnasCodigos.some(columna => columna.name === "propiedades_limitadas")){
+    db.exec("ALTER TABLE codigos ADD COLUMN propiedades_limitadas INTEGER NOT NULL DEFAULT 0");
+}
+
+db.exec(`
+    CREATE TABLE IF NOT EXISTS codigos_propiedades (
+        codigo_id INTEGER NOT NULL REFERENCES codigos(id) ON DELETE CASCADE,
+        propiedad_id INTEGER NOT NULL REFERENCES propiedades(id) ON DELETE CASCADE,
+        PRIMARY KEY (codigo_id, propiedad_id)
     )
 `);
 

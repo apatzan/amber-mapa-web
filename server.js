@@ -27,32 +27,52 @@ function obtenerSesion(token){
     return sesion;
 }
 
-function requireMantenimiento(req, res, next){
+function requireSesion(req, res, next){
     const encabezado = req.headers.authorization || "";
     const token = encabezado.startsWith("Bearer ") ? encabezado.slice(7) : null;
     const sesion = token && obtenerSesion(token);
 
     if(!sesion) return res.status(401).json({ error: "No autenticado" });
-    if(sesion.tipo !== "mantenimiento") return res.status(403).json({ error: "No autorizado" });
 
     req.sesion = sesion;
     next();
 }
 
+function requireMantenimiento(req, res, next){
+    requireSesion(req, res, () => {
+        if(req.sesion.tipo !== "mantenimiento") return res.status(403).json({ error: "No autorizado" });
+        next();
+    });
+}
+
+// Solo los .geojson de data/ son públicos: el resto (la base de datos y los archivos
+// de semilla) contiene todas las propiedades, sin el límite asignado a cada código.
+function bloquearArchivosPrivados(req, res, next){
+    const ruta = path.posix.normalize(decodeURIComponent(req.path)).toLowerCase();
+
+    if(ruta.startsWith("/data/") && !ruta.endsWith(".geojson")){
+        return res.status(404).end();
+    }
+
+    next();
+}
+
 app.use(express.json());
+app.use(bloquearArchivosPrivados);
 app.use(express.static(__dirname));
 
 app.post("/api/login", (req, res) => {
     const codigo = String(req.body.codigo || "").trim();
 
     const usuario = db
-        .prepare("SELECT codigo, nombre, tipo FROM codigos WHERE codigo = ?")
+        .prepare("SELECT id, codigo, nombre, tipo FROM codigos WHERE codigo = ?")
         .get(codigo);
 
     if(!usuario) return res.status(404).json({ error: "Código inválido" });
 
     const token = crearSesion(usuario);
-    res.json({ ...usuario, token });
+    const { id, ...datosUsuario } = usuario;
+    res.json({ ...datosUsuario, token });
 });
 
 app.post("/api/logout", (req, res) => {
@@ -64,8 +84,71 @@ app.post("/api/logout", (req, res) => {
 });
 
 app.get("/api/codigos", requireMantenimiento, (req, res) => {
-    const codigos = db.prepare("SELECT id, codigo, nombre, tipo FROM codigos ORDER BY id").all();
+    const codigos = db
+        .prepare(`
+            SELECT c.id, c.codigo, c.nombre, c.tipo, c.propiedades_limitadas,
+                (SELECT COUNT(*) FROM codigos_propiedades cp WHERE cp.codigo_id = c.id) AS propiedades_asignadas
+            FROM codigos c
+            ORDER BY c.id
+        `)
+        .all();
+
     res.json({ codigos });
+});
+
+app.get("/api/codigos/:id/propiedades", requireMantenimiento, (req, res) => {
+    const { id } = req.params;
+
+    const codigo = db.prepare("SELECT id FROM codigos WHERE id = ?").get(id);
+
+    if(!codigo) return res.status(404).json({ error: "Código no encontrado" });
+
+    const propiedad_ids = db
+        .prepare("SELECT propiedad_id FROM codigos_propiedades WHERE codigo_id = ? ORDER BY propiedad_id")
+        .pluck()
+        .all(id);
+
+    res.json({ propiedad_ids });
+});
+
+// Una lista vacía quita el límite: el código vuelve a ver todas las propiedades.
+app.put("/api/codigos/:id/propiedades", requireMantenimiento, (req, res) => {
+    const { id } = req.params;
+    const { propiedad_ids } = req.body;
+
+    if(!Array.isArray(propiedad_ids) || !propiedad_ids.every(Number.isInteger)){
+        return res.status(400).json({ error: "propiedad_ids debe ser una lista de ids" });
+    }
+
+    const propiedadIds = [...new Set(propiedad_ids)];
+
+    const reemplazarAsignacion = db.transaction(() => {
+        const resultado = db
+            .prepare("UPDATE codigos SET propiedades_limitadas = ? WHERE id = ?")
+            .run(propiedadIds.length > 0 ? 1 : 0, id);
+
+        if(resultado.changes === 0) return false;
+
+        db.prepare("DELETE FROM codigos_propiedades WHERE codigo_id = ?").run(id);
+
+        const insertar = db.prepare("INSERT INTO codigos_propiedades (codigo_id, propiedad_id) VALUES (?, ?)");
+        for(const propiedadId of propiedadIds) insertar.run(id, propiedadId);
+
+        return true;
+    });
+
+    try{
+        if(!reemplazarAsignacion()){
+            return res.status(404).json({ error: "Código no encontrado" });
+        }
+
+        res.json({ propiedad_ids: propiedadIds });
+    }catch(error){
+        if(error.code === "SQLITE_CONSTRAINT_FOREIGNKEY"){
+            return res.status(400).json({ error: "Alguna de las propiedades ya no existe" });
+        }
+        throw error;
+    }
 });
 
 app.post("/api/codigos", requireMantenimiento, (req, res) => {
@@ -154,8 +237,26 @@ function normalizarCamposPropiedad(body){
     return propiedad;
 }
 
-app.get("/api/propiedades", (req, res) => {
-    const propiedades = db.prepare("SELECT * FROM propiedades ORDER BY id").all();
+// El límite se consulta en cada petición (y no al iniciar sesión) para que los cambios
+// del administrador apliquen de inmediato, incluso si eliminó el código de esta sesión.
+app.get("/api/propiedades", requireSesion, (req, res) => {
+    const usuario = db
+        .prepare("SELECT tipo, propiedades_limitadas FROM codigos WHERE id = ?")
+        .get(req.sesion.id);
+
+    if(!usuario) return res.status(401).json({ error: "No autenticado" });
+
+    const propiedades = usuario.tipo !== "mantenimiento" && usuario.propiedades_limitadas
+        ? db
+            .prepare(`
+                SELECT p.* FROM propiedades p
+                JOIN codigos_propiedades cp ON cp.propiedad_id = p.id
+                WHERE cp.codigo_id = ?
+                ORDER BY p.id
+            `)
+            .all(req.sesion.id)
+        : db.prepare("SELECT * FROM propiedades ORDER BY id").all();
+
     res.json({ propiedades });
 });
 
