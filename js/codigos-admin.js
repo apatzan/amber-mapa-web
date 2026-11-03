@@ -2,6 +2,12 @@ let codigos = [];
 let editingIndex = -1;
 let esNuevo = false;
 let terminoBusqueda = "";
+let propiedades = [];
+let asignacionCodigoId = null;
+let propiedadesSeleccionadas = new Set();
+let terminoAsignacion = "";
+let varasDesde = null;
+let varasHasta = null;
 
 function authFetch(url, opciones = {}){
     const token = localStorage.getItem("token");
@@ -56,6 +62,15 @@ function salirDeEdicionActual(){
     esNuevo = false;
 }
 
+function textoPropiedades(item){
+    if(item.tipo === "mantenimiento" || !item.propiedades_limitadas) return "Todas";
+    if(item.propiedades_asignadas === 0) return "Ninguna";
+
+    return item.propiedades_asignadas === 1
+        ? "1 propiedad"
+        : `${item.propiedades_asignadas} propiedades`;
+}
+
 function renderTabla(){
     const tbody = document.getElementById("tabla-codigos-body");
     tbody.innerHTML = "";
@@ -77,6 +92,7 @@ function renderTabla(){
                         <option value="mantenimiento" ${item.tipo === "mantenimiento" ? "selected" : ""}>mantenimiento</option>
                     </select>
                 </td>
+                <td>${textoPropiedades(item)}</td>
                 <td class="acciones-celda">
                     <button class="btn btn-small" onclick="guardarEdicion()">Guardar</button>
                     <button class="btn btn-small btn-secondary" onclick="cancelarEdicion()">Cancelar</button>
@@ -87,8 +103,10 @@ function renderTabla(){
                 <td>${escapeHtml(item.codigo)}</td>
                 <td>${escapeHtml(item.nombre)}</td>
                 <td>${escapeHtml(item.tipo)}</td>
+                <td>${textoPropiedades(item)}</td>
                 <td class="acciones-celda">
                     <button class="btn btn-small" onclick="iniciarEdicion(${index})">Editar</button>
+                    ${item.tipo === "mantenimiento" ? "" : `<button class="btn btn-small btn-secondary" onclick="abrirAsignacion(${index})">Propiedades</button>`}
                     <button class="btn btn-small btn-danger" onclick="eliminarCodigo(${index})">Eliminar</button>
                 </td>
             `;
@@ -100,6 +118,7 @@ function renderTabla(){
 
 function iniciarEdicion(index){
     salirDeEdicionActual();
+    cerrarAsignacion();
     editingIndex = index;
     renderTabla();
 }
@@ -162,12 +181,15 @@ async function eliminarCodigo(index){
         return;
     }
 
+    if(asignacionCodigoId === item.id) cerrarAsignacion();
+
     await cargarCodigos();
     mostrarMensaje("Código eliminado");
 }
 
 function agregarNuevo(){
     salirDeEdicionActual();
+    cerrarAsignacion();
 
     codigos.push({ codigo: "", nombre: "", tipo: "" });
     editingIndex = codigos.length - 1;
@@ -176,10 +198,193 @@ function agregarNuevo(){
     renderTabla();
 }
 
+// varas_terreno viene de una hoja de cálculo con dos formatos: "1,341,578.45" y "110.000".
+// En el segundo el punto separa miles (son 110,000 varas, no 110).
+function parseVaras(raw){
+    if(raw === null || raw === undefined) return null;
+
+    const texto = String(raw).trim();
+    const digitos = /^\d{1,3}(\.\d{3})+$/.test(texto)
+        ? texto.replace(/\./g, "")
+        : texto.replace(/,/g, "");
+    const num = parseFloat(digitos);
+
+    return isNaN(num) ? null : num;
+}
+
+function coincideVaras(item){
+    if(varasDesde === null && varasHasta === null) return true;
+
+    const varas = parseVaras(item.varas_terreno);
+    if(varas === null) return false;
+
+    return (varasDesde === null || varas >= varasDesde)
+        && (varasHasta === null || varas <= varasHasta);
+}
+
+function coincideTexto(item){
+    if(!terminoAsignacion) return true;
+
+    return [item.codigo, item.titulo, item.tipo_inmueble, item.departamento]
+        .some(valor => (valor || "").toLowerCase().includes(terminoAsignacion));
+}
+
+function propiedadesListadas(){
+    return propiedades.filter(item => coincideTexto(item) && coincideVaras(item));
+}
+
+function leerVaras(id){
+    const valor = document.getElementById(id).value;
+    return valor === "" ? null : Number(valor);
+}
+
+function renderContadorAsignacion(){
+    document.getElementById("asignacion-contador").textContent = propiedadesSeleccionadas.size === 0
+        ? "Ninguna seleccionada: verá todas las propiedades"
+        : `${propiedadesSeleccionadas.size} de ${propiedades.length} seleccionadas`;
+}
+
+function renderListaAsignacion(){
+    const lista = document.getElementById("asignacion-lista");
+    lista.innerHTML = "";
+
+    const listadas = propiedadesListadas();
+
+    if(listadas.length === 0){
+        lista.textContent = "Ninguna propiedad coincide con la búsqueda";
+    }
+
+    listadas.forEach(item => {
+        const varas = parseVaras(item.varas_terreno) === null ? "" : `${item.varas_terreno.trim()} varas`;
+        const detalle = [item.tipo_inmueble, item.departamento, varas].filter(Boolean).join(" · ");
+
+        const opcion = document.createElement("label");
+        opcion.className = "filtro-opcion";
+        opcion.innerHTML = `
+            <input type="checkbox" ${propiedadesSeleccionadas.has(item.id) ? "checked" : ""}>
+            <span><strong>${escapeHtml(item.codigo)}</strong> ${escapeHtml(item.titulo || "")}${detalle ? ` (${escapeHtml(detalle)})` : ""}</span>
+        `;
+
+        opcion.querySelector("input").addEventListener("change", (evento) => {
+            if(evento.target.checked){
+                propiedadesSeleccionadas.add(item.id);
+            }else{
+                propiedadesSeleccionadas.delete(item.id);
+            }
+            renderContadorAsignacion();
+        });
+
+        lista.appendChild(opcion);
+    });
+
+    renderContadorAsignacion();
+}
+
+async function abrirAsignacion(index){
+    salirDeEdicionActual();
+    renderTabla();
+
+    const item = codigos[index];
+    asignacionCodigoId = item.id;
+
+    const [respuestaPropiedades, respuestaAsignadas] = await Promise.all([
+        authFetch("/api/propiedades"),
+        authFetch(`/api/codigos/${item.id}/propiedades`)
+    ]);
+
+    if(manejarSesionInvalida(respuestaPropiedades) || manejarSesionInvalida(respuestaAsignadas)) return;
+
+    // El administrador pudo abrir otro código mientras se esperaba la respuesta
+    if(asignacionCodigoId !== item.id) return;
+
+    if(!respuestaPropiedades.ok || !respuestaAsignadas.ok){
+        asignacionCodigoId = null;
+        mostrarMensaje("No se pudieron cargar las propiedades");
+        return;
+    }
+
+    const datosPropiedades = await respuestaPropiedades.json();
+    const datosAsignadas = await respuestaAsignadas.json();
+
+    propiedades = datosPropiedades.propiedades;
+    propiedadesSeleccionadas = new Set(datosAsignadas.propiedad_ids);
+    terminoAsignacion = "";
+    varasDesde = null;
+    varasHasta = null;
+
+    document.getElementById("buscar-asignacion").value = "";
+    document.getElementById("varas-desde").value = "";
+    document.getElementById("varas-hasta").value = "";
+    document.getElementById("asignacion-titulo").textContent = `Propiedades de ${item.nombre} (${item.codigo})`;
+    renderListaAsignacion();
+
+    const contenedor = document.getElementById("asignacion-contenedor");
+    contenedor.hidden = false;
+    contenedor.scrollIntoView({ behavior: "smooth", block: "center" });
+}
+
+function cerrarAsignacion(){
+    document.getElementById("asignacion-contenedor").hidden = true;
+    asignacionCodigoId = null;
+}
+
+function marcarListadas(marcar){
+    propiedadesListadas().forEach(item => {
+        if(marcar){
+            propiedadesSeleccionadas.add(item.id);
+        }else{
+            propiedadesSeleccionadas.delete(item.id);
+        }
+    });
+
+    renderListaAsignacion();
+}
+
+async function guardarAsignacion(){
+    const respuesta = await authFetch(`/api/codigos/${asignacionCodigoId}/propiedades`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ propiedad_ids: [...propiedadesSeleccionadas] })
+    });
+
+    if(manejarSesionInvalida(respuesta)) return;
+
+    const datos = await respuesta.json();
+
+    if(!respuesta.ok){
+        mostrarMensaje(datos.error || "No se pudieron guardar las propiedades");
+        return;
+    }
+
+    cerrarAsignacion();
+
+    await cargarCodigos();
+    mostrarMensaje("Propiedades asignadas");
+}
+
 document.addEventListener("DOMContentLoaded", () => {
     cargarCodigos();
 
     document.getElementById("btn-nuevo").addEventListener("click", agregarNuevo);
+    document.getElementById("btn-guardar-asignacion").addEventListener("click", guardarAsignacion);
+    document.getElementById("btn-cancelar-asignacion").addEventListener("click", cerrarAsignacion);
+    document.getElementById("btn-marcar-listadas").addEventListener("click", () => marcarListadas(true));
+    document.getElementById("btn-desmarcar-listadas").addEventListener("click", () => marcarListadas(false));
+
+    document.getElementById("buscar-asignacion").addEventListener("input", (evento) => {
+        terminoAsignacion = evento.target.value.trim().toLowerCase();
+        renderListaAsignacion();
+    });
+
+    document.getElementById("varas-desde").addEventListener("input", () => {
+        varasDesde = leerVaras("varas-desde");
+        renderListaAsignacion();
+    });
+
+    document.getElementById("varas-hasta").addEventListener("input", () => {
+        varasHasta = leerVaras("varas-hasta");
+        renderListaAsignacion();
+    });
 
     document.getElementById("buscar-nombre").addEventListener("input", (evento) => {
         terminoBusqueda = evento.target.value.trim().toLowerCase();

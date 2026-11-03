@@ -356,9 +356,21 @@
             });
         }
 
-        fetch('/api/propiedades')
-            .then(res => res.json())
+        fetch('/api/propiedades', {
+            headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
+        })
+            .then(res => {
+                // La sesión vive en memoria del servidor: expira o se pierde si este se reinicia
+                if(res.status === 401){
+                    window.location.href = 'index.html';
+                    return null;
+                }
+
+                return res.json();
+            })
             .then(datos => {
+                if(!datos) return;
+
                 const tiposEncontrados = new Set();
 
                 datos.propiedades.forEach(propiedad => {
